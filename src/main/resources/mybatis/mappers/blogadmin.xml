@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="blogcategory">
+	
+	<!-- default insert category -->
+	<insert id="insertByCategoryDefault" parameterType="kr.co.jimmy.VO.BlogAdminVO">
+		<selectKey keyProperty="cateNo" resultType="int" order="BEFORE">
+			<![CDATA[
+				SELECT seq_category_no.nextval
+				FROM DUAL
+			]]>
+		</selectKey>
+		<![CDATA[
+			INSERT INTO category
+			VALUES ( #{cateNo}
+					,#{id}
+					,#{cateName}
+					,#{description}
+					,SYSDATE
+			)
+		]]>
+	</insert>
+	
+	<select id="selectByCategoryDescription" parameterType="int" resultType="kr.co.jimmy.VO.BlogAdminVO">
+		<![CDATA[
+			SELECT cateNo
+				  ,id
+				  ,cateName
+				  ,description
+				  ,(0) postCount
+			FROM category
+			WHERE cateNo = #{cateNo}
+		]]>
+	</select>
+	
+	<!-- select category -->
+	<select id="selectByCategory" parameterType="String" resultType="kr.co.jimmy.VO.BlogAdminVO">
+		<![CDATA[
+			SELECT cateNo
+				  ,id
+	  			  ,cateName
+	  			  ,description
+	  			  ,(SELECT count(postNo)
+					FROM post
+					WHERE category.cateNo = post.cateNo
+					) postCount
+			FROM category
+			WHERE id = #{id}
+			ORDER BY cateNo DESC
+		]]>
+	</select>
+	
+	<delete id="deleteByCategory" parameterType="int">
+		<![CDATA[
+			DELETE 
+			FROM category
+			WHERE cateNo = #{cateNo}
+		]]>
+	</delete>
+</mapper>

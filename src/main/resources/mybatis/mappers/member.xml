@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+	<!-- Member Insert (join)-->
+	<insert id="insertByMember" parameterType="kr.co.jimmy.VO.MemberVO">
+		<![CDATA[
+			INSERT INTO users
+			VALUES( seq_users_no.nextval
+					,#{id}
+					,#{userName}
+					,#{password}
+					,SYSDATE
+			)
+		]]>
+	</insert>
+	
+	<!-- Member Select (Login) -->
+	<select id="selectByMember" parameterType="map" resultType="kr.co.jimmy.VO.MemberVO">
+		<![CDATA[
+			SELECT userNo, id, userName, joinDate
+			FROM users
+			WHERE id LIKE #{id}
+			AND password LIKE #{password}
+		]]>
+	</select>
+	
+	<!-- Member Id Check -->
+	<select id="selectByMemberIdCheck" parameterType="String" resultType="kr.co.jimmy.VO.MemberVO">
+		<![CDATA[
+			SELECT userNo, id
+			FROM users
+			WHERE id LIKE #{id}
+		]]>
+	</select>
+</mapper>
