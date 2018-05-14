@@ -35,7 +35,6 @@ public class BlogAdminController {
 	// blog profile form
 	@RequestMapping(value="/basic", method=RequestMethod.GET)
 	public String blogAdminForm(Model model, @PathVariable("id") String id) {
-		System.out.println("Admin-Basic");
 		BlogVO blogVo = b_service.selectMemberId(id);
 		model.addAttribute("blogVo", blogVo);
 		return "blog/admin/blog-admin-basic";
@@ -44,9 +43,6 @@ public class BlogAdminController {
 	// blog profile setting
 	@RequestMapping(value="/update", method=RequestMethod.POST)
 	public String blogSetting(@RequestParam("file") MultipartFile file, @ModelAttribute BlogVO blogVo, @PathVariable("id") String id) {
-		System.out.println("Admin-Setting");
-		System.out.println(file.toString());
-		System.out.println(blogVo.toString());
 		if(file.isEmpty()) {
 			System.out.println("file null");
 			service.updateBlogProfile(blogVo, null);
@@ -54,13 +50,12 @@ public class BlogAdminController {
 			System.out.println("file OK");
 			service.updateBlogProfile(blogVo, file);
 		}
-		return "blog/admin/blog-admin-basic";
+		return "redirect:/"+id;
 	}
 	
 	// blog category show
 	@RequestMapping(value="/category", method=RequestMethod.GET)
 	public String blogCategory(Model model, @PathVariable("id") String id) {
-		System.out.println("Admin-cate");
 		BlogVO blogVo = b_service.selectMemberId(id);
 		model.addAttribute("blogVo", blogVo);
 		return "blog/admin/blog-admin-cate";
@@ -92,7 +87,6 @@ public class BlogAdminController {
 	// blog Post form
 	@RequestMapping(value="/write", method=RequestMethod.GET)
 	public String blogPostForm(Model model, @PathVariable("id") String id) {
-		System.out.println("post-form");
 		BlogVO blogVo = b_service.selectMemberId(id);
 		List<BlogAdminVO> list = service.selectList(id);
 		model.addAttribute("blogVo", blogVo);

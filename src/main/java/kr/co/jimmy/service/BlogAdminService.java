@@ -34,9 +34,10 @@ public class BlogAdminService {
 			return dao.update(blogVo);
 		} else {
 			FileVO fileVo = new FileVO();
-			String saveDir = "C:\\dev\\fileupload";
+			String saveDir = "D:\\dev\\fileupload";
 			/*
-			 * File f = new File(saveDir); if(!f.exists()) { f.mkdirs();
+			 * File f = new File(saveDir); 
+			 * if(!f.exists()) { f.mkdirs();
 			 * System.out.println(saveDir+" 위치에 폴더가 생성되었습니다."); }
 			 */
 
