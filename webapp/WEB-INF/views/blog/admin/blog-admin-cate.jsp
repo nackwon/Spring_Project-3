@@ -102,7 +102,7 @@
 		str += "		<td>"+categoryVo.cateName+"</td>";
 		str += "		<td>"+categoryVo.postCount+"</td>";
 		str += "		<td>"+categoryVo.description+"</td>";
-		str += "		<td><button style='border:0px;' id='del' data-cateno='"+categoryVo.cateNo+"'><img src='${pageContext.request.contextPath}/assets/images/delete.jpg'></button></td>";
+		str += "		<td><button style='border:0px;' id='del' data-postcount='"+categoryVo.postCount+"' data-cateno='"+categoryVo.cateNo+"'><img src='${pageContext.request.contextPath}/assets/images/delete.jpg'></button></td>";
 		str += "</tr>";
 		
 		if(updown == "down"){
@@ -115,8 +115,10 @@
 	}
 	
 	$("#cateList").on("click", "button", function(){
-		var $cateNo = $(this).data("cateno");
-		console.log($cateNo);
+		var $cateNo = $(this).data("cateno"),
+			$postCount = $(this).data("postcount");
+		
+		if($postCount == 0){
 		$.ajax({
 			url :"${pageContext.request.contextPath }/${sessionScope.authUser.id}/admin/catedel",
 			type : "get",
@@ -130,6 +132,9 @@
 				}
 			}
 		});
+		} else{
+			alert("삭제할 수 없습니다.");
+		}
 	});
 </script>
 

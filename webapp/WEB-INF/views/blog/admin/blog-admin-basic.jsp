@@ -21,7 +21,7 @@
 					<li><a href="${pageContext.request.contextPath }/${sessionScope.authUser.id}/admin/write">글작성</a></li>
 				</ul>
 				
-				<form action="${pageContext.request.contextPath }/${sessionScope.authUser.id}/admin/insert" method="post">
+				<form enctype="multipart/form-data" action="${pageContext.request.contextPath }/${sessionScope.authUser.id}/admin/update" method="post">
 	 		      	<table class="admin-config">
 			      		<tr>
 			      			<td class="t">블로그 제목</td>
