@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="blog">
-	
+
 	<!-- default blog insert -->
 	<insert id="insertByBlogDefault" parameterType="kr.co.jimmy.VO.BlogVO">
 		<![CDATA[
@@ -12,23 +12,119 @@
 			)
 		]]>
 	</insert>
+	<update id="updateByBlogSetting" parameterType="kr.co.jimmy.VO.BlogVO">
+		<![CDATA[
+			UPDATE blog
+			SET  blogTitle = #{blogTitle}
+				,logoFile = #{logoFile}
+			WHERE id = #{id}
+		]]>	
+	</update>
 	
+	<select id="selectByBlogMain" parameterType="kr.co.jimmy.VO.BlogAdminVO">
+		<![CDATA[
+			SELECT c.cateNo
+	  		FROM users u, category c
+	  		WHERE u.id = c.id
+	  		AND u.id = ${id}
+	 		ORDER BY regDate DESC
+		]]>
+	</select>
+
 	<!-- default blog -->
-	<select id="selectByMemberId" parameterType="String" resultType="kr.co.jimmy.VO.BlogVO">
+	<select id="selectByMemberId" parameterType="String"
+		resultType="kr.co.jimmy.VO.BlogVO">
 		<![CDATA[
 			SELECT id, blogTitle, logoFile
 			FROM blog
 			WHERE id = #{id} 
 		]]>
 	</select>
-	
+
 	<!-- category selectAll -->
-	<select id="selectByMainCategory" parameterType="int" resultType="kr.co.jimmy.VO.BlogPostVO">
+	<select id="selectByMainCategory" parameterType="int"
+		resultType="kr.co.jimmy.VO.BlogPostVO">
 		<![CDATA[
-			SELECT postTitle, postContent ,regDate
+			SELECT postTitle, postContent ,regDate, postNo
 			FROM post
 			WHERE cateNo = #{cateNo} 
 			ORDER BY regDate DESC
 		]]>
+	</select>
+
+	<select id="selectByMainPost" parameterType="int"
+		resultType="kr.co.jimmy.VO.BlogPostVO">
+		<![CDATA[
+			SELECT postNo, postTitle, postContent
+			FROM post
+			WHERE postNo = #{postNo}
+		]]>
+	</select>
+
+	<!-- comment insert One -->
+	<insert id="insertByComment" parameterType="kr.co.jimmy.VO.CommentVO">
+		<selectKey keyProperty="cmtNo" resultType="int" order="BEFORE">
+			<![CDATA[
+				SELECT seq_comments_no.nextval
+				FROM DUAL
+			]]>
+		</selectKey> 
+		<![CDATA[
+			INSERT INTO comments
+			VALUES ( #{cmtNo}
+					,#{postNo}
+					,#{userNo}
+					,#{cmtContent}
+					,SYSDATE
+					)
+		]]>
+	</insert>
+
+	<!-- comment selectOne -->
+	<select id="selectByComment" parameterType="int"
+		resultType="kr.co.jimmy.VO.CommentVO">
+		<![CDATA[
+			SELECT u.userName, c.cmtContent, c.regDate
+			FROM users u, comments c
+			WHERE u.userNo = c.userNo
+			AND c.cmtNo = #{cmtNo}
+		]]>
+	</select>
+
+	<!-- comment list -->
+	<select id="selectByCommentList" parameterType="int" resultType="kr.co.jimmy.VO.CommentVO">
+		<![CDATA[
+			SELECT A.userName, A.cmtContent, A.regDate, A.postNo
+			FROM (SELECT u.userName, c.cmtContent, c.regDate, c.postNo
+	 			  FROM users u, comments c
+	 			  WHERE u.userNo = c.userNo) A, post p
+			WHERE p.postNo = A.postNo
+			AND p.postNo = #{postNo}
+			ORDER By A.regDate DESC
+		]]>
+	</select>
+
+	<!-- rownum postNumber -->
+	<select id="selectByPostNumber" parameterType="int" resultType="kr.co.jimmy.VO.BlogMainDefaultVO">
+		<![CDATA[
+			SELECT rownum as num, a.cateNo, a.postNo
+			FROM (SELECT p.cateNo, p.postNo, p.regDate
+				  FROM category c, post p
+				  WHERE c.cateNo = p.cateNo
+				  AND p.cateNo = #{cateNo}
+				  ORDER BY p.regDate DESC) a;
+	  ]]>
+	</select>
+
+	 <!-- rownum cateNumber -->
+	<select id="selectBycateNumber" parameterType="String" resultType="kr.co.jimmy.VO.BlogMainDefaultVO">
+		<![CDATA[
+			SELECT rownum as num, a.cateNo
+			FROM (SELECT c.cateNo, c.regDate
+				  FROM category c, blog b
+				  WHERE c.id = b.id
+			      AND c.id = #{id}
+				  ORDER BY c.regDate DESC) a;
+	  ]]>
 	</select>
 </mapper>
