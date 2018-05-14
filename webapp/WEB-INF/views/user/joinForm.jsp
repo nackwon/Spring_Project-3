@@ -54,8 +54,10 @@
 </body>
 <script type="text/javascript">
 	$("#submit").on("click", function() {
-		if(finalCheck()){
+		if(finalCheck() == true){
 			return true;
+		}else{
+			return false;
 		}
 	});
 
@@ -71,23 +73,38 @@
 		console.log($password);
 
 		if (!$userName) {
-			$("#namemsg").html("필수 사항 입니다.");
+			$("#namemsg").html("이름을 입력해주세요.")
+						 .css("color","red");
+			$("[name=userName]").focus();
 			return false;
 		}
 		if (!$id) {
-			$("#checkid-msg").html("필수 사항 입니다.");
+			$("#checkid-msg").html("아이디를 입력해 주세요")
+							 .css("color","red");
+			$("[name=id]").focus();
+			return false;
+		}
+		
+		if($id.length < 3){
+			$("#checkid-msg").html("3글자 이상 작성하세요")
+							 .css("color","red");
+			$("[name=id]").focus();
 			return false;
 		}
 		if (!$password) {
-			$("#passwordmsg").html("필수 사항 입니다.");
+			$("#passwordmsg").html("비밀번호를 입력하세요")
+							 .css("color","red");
+			$("[name=password]").focus;
 			return false;
 		}
 		if($agree != true){
-			$("#agreemsg").html("약관에 동의해 주세요.");
+			$("#agreemsg").html("약관에 동의해 주세요.")
+						  .css("color","red");
 			return false;
 		}
 		if($isIdCheck == "false"){
-			$("checkid-msg").html("아이디 중복 체크를 해주세요.");
+			$("checkid-msg").html("아이디 중복 체크를 해주세요.")
+							.css("color","red");
 			return false;
 		}
 		return true;
@@ -106,9 +123,11 @@
 			dataType : "json",
 			success : function(flag) {
 				if (flag == true) {
+					$("#checkid-msg").html("사용할 수 있는 아이디입니다.");
 					$("#isIdCheck").val("true");
 				} else {
-					$("#checkid-msg").html("사용할 수 없는 아이디 입니다.");
+					$("#checkid-msg").html("사용할 수 없는 아이디 입니다.")
+									 .css("color","red");
 				}
 			},
 			error : function(XHR, status, error) {
