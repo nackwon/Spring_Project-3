@@ -28,7 +28,7 @@ public class JoinDAO {
 	public int insertBlog(MemberVO memberVo) {
 		String id = memberVo.getId();
 		String blogTitle = memberVo.getUserName()+" 님의 블로그 입니다.";
-		String logoFile = "assets/images/spring-logo.jpg";
+		String logoFile = "1525402072222f17868c9-934d-4569-ac3c-aff09c703512";
 		BlogVO blogVo = new BlogVO();
 		blogVo.setId(id);
 		blogVo.setBlogTitle(blogTitle);
