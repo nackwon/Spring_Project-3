@@ -18,9 +18,6 @@
 		<div id="wrapper">
 			<div id="content">
 				<div class="blog-content">
-					<c:if test="${list.get(0).postCount == 0 }">
-						<h4>글이 없습니다.</h4>
-					</c:if>
 				</div>
 
 				<table>
@@ -47,7 +44,7 @@
 
 		<div id="extra">
 			<div class="blog-logo">
-				<img src="${pageContext.request.contextPath }/${requestScope.blogVo.logoFile }">
+				<img src="${pageContext.request.contextPath }/upload/${requestScope.blogVo.logoFile }">
 			</div>
 		</div>
 
