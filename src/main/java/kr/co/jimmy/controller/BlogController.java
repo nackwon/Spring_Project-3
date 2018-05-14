@@ -34,11 +34,7 @@ public class BlogController {
 	@RequestMapping(value = "{id}", method = {RequestMethod.GET, RequestMethod.POST})
 	public String blogMain(@PathVariable("id") String id, Model model) {
 		BlogVO blogVo = service.selectMemberId(id);
-		//int cateNo = service.selectPostNumber(id).get(0).getCateNo();
-		//int postNo = service.selectCateNumber(cateNo).get(0).getPostNo();
 		List<BlogAdminVO> list = a_service.selectList(id);
-		//model.addAttribute("cateNo",cateNo);
-		//model.addAttribute("postNo",postNo);
 		model.addAttribute("blogVo", blogVo);
 		model.addAttribute("list", list);
 		return "blog/blog-main";
