@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import kr.co.jimmy.VO.BlogAdminVO;
+import kr.co.jimmy.VO.BlogMainDefaultVO;
 import kr.co.jimmy.VO.BlogPostVO;
 import kr.co.jimmy.VO.BlogVO;
 
@@ -23,4 +23,16 @@ public class BlogDAO {
 	public List<BlogPostVO> selectAll(int cateNo){
 		return sqlSession.selectList("blog.selectByMainCategory", cateNo);
 	}
+	
+	public BlogPostVO select(int postNo) {
+		return sqlSession.selectOne("blog.selectByMainPost",postNo);
+	}
+	
+	/*public List<BlogMainDefaultVO> selectOne(int cateNo) {
+		return sqlSession.selectList("blog.selectByPostNumber",cateNo);
+	}*/
+	
+	/*public List<BlogMainDefaultVO> selectOne(String id){
+		return sqlSession.selectList("blog.selectBycateNumber", id);
+	}*/
 }

@@ -6,7 +6,6 @@ public class BlogVO {
 	private String blogTitle;
 	private String logoFile;
 	private String cateName;
-	
 
 	public String getCateName() {
 		return cateName;
@@ -38,6 +37,12 @@ public class BlogVO {
 
 	public void setLogoFile(String logoFile) {
 		this.logoFile = logoFile;
+	}
+
+	@Override
+	public String toString() {
+		return "BlogVO [id=" + id + ", blogTitle=" + blogTitle + ", logoFile=" + logoFile + ", cateName=" + cateName
+				+ "]";
 	}
 
 }
