@@ -17,3 +17,6 @@ Spring-Project
 - Blog
 - Blog Admin (User) / Blog Admin (Admin)
 - Blog Search
+
+### 기간
+- 2018/05/09 ~ 2018/05/13 (1차 업데이트)
