@@ -105,7 +105,7 @@
 	</select>
 
 	<!-- rownum postNumber -->
-	<select id="selectByPostNumber" parameterType="int" resultType="kr.co.jimmy.VO.BlogMainDefaultVO">
+	<!-- <select id="selectByPostNumber" parameterType="int" resultType="kr.co.jimmy.VO.BlogMainDefaultVO">
 		<![CDATA[
 			SELECT rownum as num, a.cateNo, a.postNo
 			FROM (SELECT p.cateNo, p.postNo, p.regDate
@@ -114,10 +114,10 @@
 				  AND p.cateNo = #{cateNo}
 				  ORDER BY p.regDate DESC) a;
 	  ]]>
-	</select>
+	</select> -->
 
 	 <!-- rownum cateNumber -->
-	<select id="selectBycateNumber" parameterType="String" resultType="kr.co.jimmy.VO.BlogMainDefaultVO">
+	<!-- <select id="selectBycateNumber" parameterType="String" resultType="kr.co.jimmy.VO.BlogMainDefaultVO">
 		<![CDATA[
 			SELECT rownum as num, a.cateNo
 			FROM (SELECT c.cateNo, c.regDate
@@ -126,5 +126,5 @@
 			      AND c.id = #{id}
 				  ORDER BY c.regDate DESC) a;
 	  ]]>
-	</select>
+	</select> -->
 </mapper>
