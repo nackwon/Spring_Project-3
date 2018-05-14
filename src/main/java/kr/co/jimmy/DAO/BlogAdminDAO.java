@@ -6,8 +6,11 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.jimmy.VO.BlogAdminVO;
+import kr.co.jimmy.VO.BlogVO;
+import kr.co.jimmy.VO.FileVO;
 
 @Repository
 public class BlogAdminDAO {
@@ -16,11 +19,12 @@ public class BlogAdminDAO {
 	private SqlSession sqlSession;
 	
 	
-	public int update(String blogTitle, String id) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("blogTitle", blogTitle);
-		map.put("id", id);
-		return sqlSession.update("blog.updateByBlogSetting",map);
+	public int update(BlogVO blogVo) {
+		return sqlSession.update("blog.updateByBlogSetting",blogVo);
+	}
+	
+	public BlogVO select(String id) {
+		return sqlSession.selectOne("blog.selectByMemberId",id);
 	}
 	
 	public int insert(BlogAdminVO cateVo) {

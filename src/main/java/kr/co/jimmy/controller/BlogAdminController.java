@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.jimmy.VO.BlogAdminVO;
 import kr.co.jimmy.VO.BlogPostVO;
 import kr.co.jimmy.VO.BlogVO;
+import kr.co.jimmy.VO.FileVO;
 import kr.co.jimmy.service.BlogAdminService;
 import kr.co.jimmy.service.BlogPostService;
 import kr.co.jimmy.service.BlogService;
@@ -40,10 +42,18 @@ public class BlogAdminController {
 	}
 	
 	// blog profile setting
-	@RequestMapping(value="/insert", method=RequestMethod.POST)
-	public String blogSetting(@RequestParam("blogTitle") String blogTitle, @PathVariable("id") String id) {
+	@RequestMapping(value="/update", method=RequestMethod.POST)
+	public String blogSetting(@RequestParam("file") MultipartFile file, @ModelAttribute BlogVO blogVo, @PathVariable("id") String id) {
 		System.out.println("Admin-Setting");
-		service.updateBlogProfile(blogTitle, id);
+		System.out.println(file.toString());
+		System.out.println(blogVo.toString());
+		if(file.isEmpty()) {
+			System.out.println("file null");
+			service.updateBlogProfile(blogVo, null);
+		}else {
+			System.out.println("file OK");
+			service.updateBlogProfile(blogVo, file);
+		}
 		return "blog/admin/blog-admin-basic";
 	}
 	
