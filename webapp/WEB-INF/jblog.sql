@@ -58,7 +58,7 @@ NOCACHE;
 
 SELECT cateName, regDate
 FROM category
-WHERE cateNo = 
+WHERE cateNo = 0;
 
 SELECT cateNo
 	   ,id
@@ -102,9 +102,9 @@ CREATE TABLE post(
 	REFERENCES category(cateNo)
 );
 
-SELECT postTitle, regDate
+SELECT postTitle, regDate, postContent, cateNo
 FROM post
-WHERE cateNo = 5;
+WHERE cateNo = 0;
 
 SELECT count(*)
 FROM post p, category c
@@ -116,6 +116,9 @@ INCREMENT BY 1
 START WITH 1
 NOCACHE;
 
+SELECT postTitle, postContent
+FROM post
+WHERE postNo = 9
 SELECT * FROM post;
 
 DELETE FROM post;
@@ -141,16 +144,49 @@ INCREMENT BY 1
 START WITH 1
 NOCACHE;
 
+SELECT u.userName, c.cmtContent, c.regDate
+FROM users u, comment c
+WHERE u.userNo = c.userNo
+AND c.cmtNo = 4;
+
+select * FROM COMMENTS;
+DELETE FROM comments;
 DROP TABLE comments;
 DROP SEQUENCE seq_comments_no;
 /* comments Table End */
 
+/* Onother SQL */
+SELECT A.id, A.cateNo, p.postNo
+FROM (SELECT u.id, c.cateNo, c.regDate
+	  FROM users u, category c
+	  WHERE u.id = c.id
+	  AND u.id = 'jimmy'
+	  ORDER BY regDate DESC) A, post p
+WHERE p.cateNo = 8;
 
+SELECT A.userName, A.cmtContent, A.regDate
+FROM (SELECT u.userName, c.cmtContent, c.regDate
+	  FROM users u, comment c
+	  WHERE u.userNo = c.userNo) A, post p
+WHERE p.postNo = 8;
 
+SELECT A.userName, A.cmtContent, A.regDate, A.postNo
+			FROM (SELECT u.userName, c.cmtContent, c.regDate, c.postNo
+	 			  FROM users u, comments c
+	 			  WHERE u.userNo = c.userNo) A, post p
+			WHERE p.postNo = A.postNo
+			AND p.postNo = 0;
 COMMIT
+SELECT rownum as num, a.cateNo, a.regDate
+FROM (SELECT c.cateNo, c.regDate
+	FROM category c, blog b
+	WHERE c.id = b.id
+	AND c.id = 'jimmy'
+	ORDER BY c.regDate DESC) a;
 
-
-
-
-
-
+SELECT rownum as num, a.cateNo, a.postNo, a.regDate
+FROM (SELECT p.cateNo, p.postNo, p.regDate
+	FROM category c, post p
+	WHERE c.cateNo = p.cateNo
+	AND p.cateNo = 6
+	ORDER BY p.regDate DESC) a;
